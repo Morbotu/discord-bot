@@ -1,7 +1,7 @@
 const kick = require("../commands/kick");
 const sayHello = require("../commands/sayHello");
 const duel = require("../commands/duel");
-module.exports = (client, message) => {
+module.exports = (client, keyv, message) => {
     if (message.author.bot) return;
     if (message.content.startsWith("!kick")) {
         return kick(message);
@@ -10,6 +10,6 @@ module.exports = (client, message) => {
         return sayHello(message);
     }
     if (message.content.startsWith("duel")) {
-        return duel(message);
+        return duel(keyv, message);
     }
 }
