@@ -1,3 +1,4 @@
 module.exports = message => {
-    SEND_MESSAGES("Hello");
+    const channel = message.channel;
+    channel.send(message.content + " " + message.author.username);
 }
