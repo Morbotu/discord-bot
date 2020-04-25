@@ -1,4 +1,4 @@
 module.exports = message => {
     const channel = message.channel;
-    channel.send(message.content + " " + message.author.username);
+    channel.send(message.content + " <@" + message.author.id + ">");
 }
