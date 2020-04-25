@@ -1,3 +1,3 @@
 module.exports = message => {
-    message.reply("Hello");
+    SEND_MESSAGES("Hello");
 }
