@@ -9,7 +9,7 @@ module.exports = (client, keyv, message) => {
     if (["hello","hallo","goedendag"].includes(message.content.toLowerCase())) {
         return sayHello(message);
     }
-    if (message.content.startsWith("duel")) {
+    if (["duel","yes"].includes(message.content.toLowerCase().split(" ")[0])) {
         return duel(keyv, message);
     }
 }
