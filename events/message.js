@@ -4,7 +4,7 @@ module.exports = (client, message) => {
     if (message.content.startsWith("!kick")) {
         return kick(message);
     }
-    if (message.content === "hello") {
+    if (toLowerCase(message.content) === "hello") {
         return sayHello(message);
     }
 }
