@@ -4,15 +4,16 @@ const client = new Discord.Client();
 const fs = require("fs");
 const Keyv = require('keyv');
 const keyv = new Keyv();
-// const keyv = new Keyv("mysql://user:pass@localhost:3306/database.mysql");
 keyv.on('error', err => console.log('Connection Error', err));
 
 fs.readdir("./events/", (err, files) => {
     files.forEach(file => {
-        const eventHandler = require(`./events/${file}`)
-        const eventName = file.split(".")[0]
-        client.on(eventName, (...args) => eventHandler(client, keyv, ...args))
+        const eventHandler = require(`./events/${file}`);
+        const eventName = file.split(".")[0];
+        client.on(eventName, (...args) => eventHandler(client, keyv, ...args));
     })
 })
+
+
 
 client.login(process.env.BOT_TOKEN);
