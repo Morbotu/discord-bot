@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@keyv/mysql": "^1.1.4",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "keyv": "^4.0.0",
