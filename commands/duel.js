@@ -7,5 +7,4 @@ module.exports = async (keyv, message) => {
         return channel.send("<@" + opponent.user.id + ">" + " has 30 seconds to reply");
     }
     else keyv.clear();
-    console.log("this is a change");
 }

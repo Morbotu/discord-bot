@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const fs = require("fs");
 const Keyv = require('keyv');
 const keyv = new Keyv();
+// const keyv = new Keyv("mysql://user:pass@localhost:3306/database.mysql");
 keyv.on('error', err => console.log('Connection Error', err));
 
 fs.readdir("./events/", (err, files) => {
