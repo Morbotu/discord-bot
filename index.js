@@ -5,8 +5,8 @@
     The rest is a bit of if statements giving some magic back.
 */
 require("dotenv").config();
-const Discord = require("discord.js");
-const client = new Discord.Client();
+const { Client, MessageEmbed } = require('discord.js');
+const client = new Client();
 const fs = require("fs");
 const Keyv = require('keyv');
 const keyv = new Keyv();
@@ -16,7 +16,7 @@ fs.readdir("./events/", (err, files) => {
     files.forEach(file => {
         const eventHandler = require(`./events/${file}`);
         const eventName = file.split(".")[0];
-        client.on(eventName, (...args) => eventHandler(client, keyv, ...args));
+        client.on(eventName, (...args) => eventHandler(client, MessageEmbed, keyv, ...args));
     })
 })
 
