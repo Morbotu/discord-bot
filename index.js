@@ -1,3 +1,9 @@
+/*
+    27-04-2020
+    This is a simple bot.
+    In the index is some library magic going on.
+    The rest is a bit of if statements giving some magic back.
+*/
 require("dotenv").config();
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -13,7 +19,5 @@ fs.readdir("./events/", (err, files) => {
         client.on(eventName, (...args) => eventHandler(client, keyv, ...args));
     })
 })
-
-
 
 client.login(process.env.BOT_TOKEN);
