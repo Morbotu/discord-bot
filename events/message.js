@@ -7,6 +7,6 @@ module.exports = (client, MessageEmbed, keyv, message) => {
         return kick(message);
     if (["hello","hallo","goedendag"].includes(message.content.toLowerCase()))
         return sayHello(message);
-    if (["duel","yes","no","bite","stab","punch","power_punch"].includes(message.content.toLowerCase().split(" ")[0]))
+    if (["duel","yes","no","bite","punch","stab","mega_punch"].includes(message.content.toLowerCase().split(" ")[0]))
         return duel(keyv, MessageEmbed, message);
 }
