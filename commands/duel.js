@@ -20,6 +20,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.delete(challenger);
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(challenger + ":challenging");
+        await keyv.delete(message.author.id + ":challenger");
         let room = "room" + Math.floor(Math.random() * 10000);
         let rooms = [];
         rooms.concat(await keyv.get("rooms"));
