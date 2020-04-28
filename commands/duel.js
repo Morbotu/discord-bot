@@ -8,13 +8,25 @@ module.exports = async (keyv, MessageEmbed, message) => {
             return message.reply("Mention the player you want to challenge.");
         if (await keyv.get(opponent.user.id + ":occupied")) 
             return message.reply("This player is already in a fight or still needs to awnser a request.");
+        if (await keyv.get(message.author.id + ":timer")) {
+            let d = new Date();
+            let timeleft = 30 - Math.round((d.getTime() - (await keyv.get(message.author.id + ":timeleft")))/1000);
+            return message.reply("You need to wait " + timeleft + " seconds before you can send another request.");
+        }
         await keyv.set(opponent.user.id + ":occupied", true);
         await keyv.set(opponent.user.id + ":challenged", true);
         await keyv.set(opponent.user.id + ":challenger", message.author.id);
         await keyv.set(message.author.id + ":occupied", true);
         await keyv.set(message.author.id + ":challenging", true);
+        await keyv.set(message.author.id + ":expire", true);
+        await keyv.set(message.author.id + ":timer", true);
+        let d = new Date();
+        await keyv.set(message.author.id + ":timeleft", d.getTime());
         setTimeout(async function() {
-            if (await keyv.get(message.author.id + ":challenging")) {
+            if (await keyv.get(message.author.id + ":expire")) {
+                await keyv.delete(message.author.id + ":expire");
+                await keyv.delete(message.author.id + ":timer");
+                await keyv.delete(message.author.id + ":timeleft");
                 await keyv.set(opponent.user.id + ":occupied");
                 await keyv.set(opponent.user.id + ":challenged");
                 await keyv.set(opponent.user.id + ":challenger");
@@ -22,12 +34,15 @@ module.exports = async (keyv, MessageEmbed, message) => {
                 await keyv.set(message.author.id + ":challenging");
                 return channel.send("Duel expired.");
             }
-        },
-        30000);
+            await keyv.delete(message.author.id + ":timeleft");
+            await keyv.delete(message.author.id + ":timer");
+            return channel.send("<@" + message.author.id + "> You can now duel someone.");
+        },30000);
         return channel.send(opponent.toString() + " has 30 seconds to accept with `yes` or refuse with `no`");
     }
     if (message.content.toLowerCase() === "yes" && await keyv.get(message.author.id + ":challenged")) {
         let challenger = await keyv.get(message.author.id + ":challenger");
+        await keyv.delete(challenger + ":expire");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(challenger + ":challenging");
         await keyv.delete(message.author.id + ":challenger");
@@ -63,6 +78,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.delete(message.author.id + ":occupied");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(message.author.id + ":challenger");
+        await keyv.delete(challenger + ":expire");
         await keyv.delete(challenger + ":occupied");
         await keyv.delete(challenger + ":challenging");
         return channel.send("<@" + message.author.id + "> refused");
