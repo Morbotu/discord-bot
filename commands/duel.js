@@ -33,7 +33,8 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.delete(message.author.id + ":challenger");
         let room = "room" + Math.floor(Math.random() * 10000);
         let rooms = [];
-        rooms.concat(await keyv.get("rooms"));
+        if (await keyv.get("rooms") != null)
+            rooms = rooms.concat(await keyv.get("rooms"));
         while (rooms.includes(room))
             room = "room" + Math.floor(Math.random() * 10000);
         rooms.push(room);
@@ -174,7 +175,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
             await keyv.delete(players[1] + ":room");
             await keyv.delete(players[0] + ":dueling");
             await keyv.delete(players[1] + ":dueling");
-            rooms.splice(rooms.indexOf(room));
+            rooms.splice(rooms.indexOf(room),1);
             await keyv.set("rooms", rooms);
             return channel.send(new MessageEmbed()
                 .setTitle("Battle is over.")
@@ -193,7 +194,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
             await keyv.delete(players[1] + ":room");
             await keyv.delete(players[0] + ":dueling");
             await keyv.delete(players[1] + ":dueling");
-            rooms.splice(rooms.indexOf(room));
+            rooms.splice(rooms.indexOf(room),1);
             await keyv.set("rooms", rooms);
             return channel.send(new MessageEmbed()
                 .setTitle("Battle is over.")
