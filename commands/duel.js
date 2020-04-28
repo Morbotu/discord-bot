@@ -40,7 +40,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         rooms.push(room);
         await keyv.set("rooms", rooms);
         await keyv.set(room + ":players", message.author.id + ":" + challenger);
-        let turn = Math.round(Math.random());
+        let turn = Math.floor(Math.random() * 2);
         await keyv.set(room + ":turn", turn);
         await keyv.set(room + ":health", [100, 100]);
         await keyv.set(message.author.id + ":room", room);
