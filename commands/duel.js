@@ -64,7 +64,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.delete(message.author.id + ":challenger");
         await keyv.delete(challenger + ":occupied");
         await keyv.delete(challenger + ":challenging");
-        return channel.send(message.author.id.toString() + " refused");
+        return channel.send("<@" + message.author.id + "> refused");
     }
     if (await keyv.get(message.author.id + ":dueling")) {
         var room = await keyv.get(message.author.id + ":room");
