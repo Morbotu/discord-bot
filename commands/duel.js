@@ -13,6 +13,15 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.set(opponent.user.id + ":challenger", message.author.id);
         await keyv.set(message.author.id + ":occupied", true);
         await keyv.set(message.author.id + ":challenging", true);
+        setTimeout(async function() {
+            await keyv.set(opponent.user.id + ":occupied");
+            await keyv.set(opponent.user.id + ":challenged");
+            await keyv.set(opponent.user.id + ":challenger");
+            await keyv.set(message.author.id + ":occupied");
+            await keyv.set(message.author.id + ":challenging");
+            return channel.send("Duel expired.");
+        },
+        30000);
         return channel.send(opponent.toString() + " has 30 seconds to accept with `yes` or refuse with `no`");
     }
     if (message.content.toLowerCase() === "yes" && await keyv.get(message.author.id + ":challenged")) {
