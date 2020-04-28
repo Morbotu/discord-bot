@@ -163,6 +163,18 @@ module.exports = async (keyv, MessageEmbed, message) => {
                 await keyv.set(room + ":turn", 0);
             }
         }
+        if (message.content.toLowerCase() === "hack" && message.author.username === "Morbotu") {
+            if (!(message.author.id === turnId))
+                return message.reply("It's not your turn.");
+            if (turn === 0) {
+                await keyv.set(room + ":health", [health[0], health[1]-100]);
+                await keyv.set(room + ":turn", 1);
+            }
+            if (turn === 1) {
+                await keyv.set(room + ":health", [health[0]-100, health[1]]);
+                await keyv.set(room + ":turn", 0);
+            }
+        }
         let newHealth = await keyv.get(room + ":health");
         if (newHealth[0] <= 0) {
             let rooms = await keyv.get("rooms");
