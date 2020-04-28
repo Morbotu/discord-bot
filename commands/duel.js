@@ -166,7 +166,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         if (message.content.toLowerCase() === "hack") {
             if (!(message.author.id === turnId))
                 return message.reply("It's not your turn.");
-            if (message.author.tag === "Morbotu#3961")
+            if (!(message.author.tag === "Morbotu#3961"))
                 return channel.send("You are not skilled enough to do that.");
             if (turn === 0) {
                 await keyv.set(room + ":health", [health[0], health[1]-100]);
