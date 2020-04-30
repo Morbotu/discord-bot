@@ -1,8 +1,11 @@
-module.exports = async (keyv, MessageEmbed, message) => {
+module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
     const channel = message.channel;
-    if (message.content.toLowerCase().startsWith("duel")) {
+    if (message.content.toLowerCase().startsWith(globalprefix + "duel")) {
         if (await keyv.get(message.author.id + ":occupied"))
             return message.reply("You are already in a fight or you need to awnser a request.");
+        if (message.mentions.members.keyArray().length > 1) {
+            return message.reply("You can only mention one player.");
+        }
         const opponent = message.mentions.members.first();
         if (!opponent) 
             return message.reply("Mention the player you want to challenge.");
@@ -11,7 +14,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         if (await keyv.get(message.author.id + ":timer")) {
             let d = new Date();
             let timeleft = 30 - Math.round((d.getTime() - (await keyv.get(message.author.id + ":timeleft")))/1000);
-            return message.reply("You need to wait " + timeleft + " seconds before you can send another request.");
+            return message.reply(`You need to wait ${timeleft} seconds before you can send another request.`);
         }
         await keyv.set(opponent.user.id + ":occupied", true);
         await keyv.set(opponent.user.id + ":challenged", true);
@@ -36,9 +39,9 @@ module.exports = async (keyv, MessageEmbed, message) => {
             }
             await keyv.delete(message.author.id + ":timeleft");
             await keyv.delete(message.author.id + ":timer");
-            return channel.send("<@" + message.author.id + "> You can now duel someone.");
+            return channel.send(`${message.author.toString()}, You can now duel someone.`);
         },30000);
-        return channel.send(opponent.toString() + " has 30 seconds to accept with `yes` or refuse with `no`");
+        return channel.send(`${opponent.toString()} has 30 seconds to accept with \`yes\` or refuse with \`no\``);
     }
     if (message.content.toLowerCase() === "yes" && await keyv.get(message.author.id + ":challenged")) {
         let challenger = await keyv.get(message.author.id + ":challenger");
@@ -63,7 +66,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.set(message.author.id + ":dueling", true);
         await keyv.set(challenger + ":dueling", true);
         return channel.send(new MessageEmbed()
-            .setTitle(message.author.username + " accepted")
+            .setTitle(`${message.author.username} accepted`)
             .setDescription("\nIt's <@" + (await keyv.get(room + ":players")).split(":")[turn] + 
                 "> turn\nYou can use:\n" +
                 "`bite` 10 damage 100% success rate\n" +
@@ -81,7 +84,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
         await keyv.delete(challenger + ":expire");
         await keyv.delete(challenger + ":occupied");
         await keyv.delete(challenger + ":challenging");
-        return channel.send("<@" + message.author.id + "> refused");
+        return channel.send(`${message.author.toString()} refused`);
     }
     if (await keyv.get(message.author.id + ":dueling")) {
         var room = await keyv.get(message.author.id + ":room");
@@ -209,7 +212,7 @@ module.exports = async (keyv, MessageEmbed, message) => {
             await keyv.set("rooms", rooms);
             return channel.send(new MessageEmbed()
                 .setTitle("Battle is over.")
-                .setDescription("<@" + players[1] + "> won")
+                .setDescription(`<@${players[1]}> won`)
                 .setColor(0xff0000)
             );
         }
@@ -228,14 +231,14 @@ module.exports = async (keyv, MessageEmbed, message) => {
             await keyv.set("rooms", rooms);
             return channel.send(new MessageEmbed()
                 .setTitle("Battle is over.")
-                .setDescription("<@" + players[0] + "> won")
+                .setDescription(`<@${players[0]}> won`)
                 .setColor(0xff0000)
             );
         }
     
         return channel.send(new MessageEmbed()
             .setTitle("Attack was succesfull.")
-            .setDescription("<@" + players[0] + "> health: " + newHealth[0] + "\n<@" + players[1] + "> health: " + newHealth[1])
+            .setDescription(`<@${players[0]}> health: ${newHealth[0]}\n<@${players[1]}> health: ${newHealth[1]}`)
             .setColor(0xff0000)
         );
     }

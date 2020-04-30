@@ -11,12 +11,13 @@ const fs = require("fs");
 const Keyv = require('keyv');
 const keyv = new Keyv();
 keyv.on('error', err => console.log('Connection Error', err));
+const globalprefix = "r!";
 
 fs.readdir("./events/", (err, files) => {
     files.forEach(file => {
         const eventHandler = require(`./events/${file}`);
         const eventName = file.split(".")[0];
-        client.on(eventName, (...args) => eventHandler(client, MessageEmbed, keyv, ...args));
+        client.on(eventName, (...args) => eventHandler(client, MessageEmbed, globalprefix, keyv, ...args));
     })
 })
 
