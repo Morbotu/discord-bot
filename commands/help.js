@@ -4,7 +4,7 @@ module.exports = (MessageEmbed, message) => {
         if (helpSubject === "duel")
             return message.channel.send(new MessageEmbed()
             .setTitle("Help page: duel")
-            .setDescription("Usage:\n`duel @player`")
+            .setDescription("Usage:\n`R!duel @player`\nDescription:\nChallenge other players in a luck based duel.")
             .setColor(0xff0000)
         );
     }
