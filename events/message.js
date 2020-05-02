@@ -2,6 +2,7 @@ const sayHello = require("../commands/sayHello");
 const duel = require("../commands/duel");
 const getActiveRooms = require("../commands/getActiveRooms");
 const help = require("../commands/help");
+const button = require("../commands/button");
 module.exports = (client, MessageEmbed, globalprefix, keyv, message) => {
     if (message.author.bot) return; // Doesn't awnser to bots.
     if (["hello","hallo","goedendag"].includes(message.content.toLowerCase()))
@@ -12,4 +13,6 @@ module.exports = (client, MessageEmbed, globalprefix, keyv, message) => {
         return getActiveRooms(keyv, message);
     if (message.content.toLowerCase().startsWith("r!help"))
         return help(MessageEmbed, message);
+    if (message.content.toLowerCase().startsWith("r!button"))
+        return button(message);
 }
