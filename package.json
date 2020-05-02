@@ -20,5 +20,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rombout124/discord-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rombout124/discord-bot/issues"
+  },
+  "homepage": "https://github.com/Rombout124/discord-bot#readme"
 }
