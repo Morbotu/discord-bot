@@ -1,13 +1,12 @@
 module.exports = message => {
-    // return message.guild.roles.create({
-    //     data: {
-    //       name: 'Super Cool People',
-    //       color: 'BLUE',
-    //     },
-    //     reason: 'we needed a role for Super Cool People',
-    //   })
-    //     .then(console.log)
-    //     .catch(console.error);
-    let scpID = message.guild.roles.cache.find(role => role.name === "Super Cool People");
-    message.member.roles.remove(scpID);
+    const colors = ["blue", "red"];
+    for (const color in colors)
+        if (!(message.guild.roles.cache.find(role => role.name === `${colors[color]} tier`)))
+            message.guild.roles.create({
+                data: {
+                    name:  `${colors[color]} tier`,
+                    color: `${colors[color].toUpperCase()}`,
+                },
+                reason: `button ${colors[color]} tier`,
+            });
 }
