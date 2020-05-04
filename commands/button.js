@@ -13,8 +13,8 @@ module.exports = async (message, keyv, MessageEmbed) => {
         console.log(roles);
         for (const [id, name] of roles) {
             console.log(id);
-            console.log(guild.roles.change.find(role => role.id === id))
-            // guild.roles.change.find(role => role.id === id).setColor("RED");
+            console.log(guild.roles.cache.find(role => role.id === id))
+            guild.roles.cache.find(role => role.id === id).setColor("RED");
             // console.log(guild.roles.change.find(role => role.id === id));
         }
         for (const color of colors) {
