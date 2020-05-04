@@ -1,5 +1,5 @@
 module.exports = message => {
-    if (message.content.split().lenght > 2)
+    if (message.content.split(" ").length > 2)
         return message.reply("This command only has one argument.");
     const colors = ["blue", "red"];
     for (const color in colors)
