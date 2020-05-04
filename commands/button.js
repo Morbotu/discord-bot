@@ -10,10 +10,9 @@ module.exports = async (message, keyv, MessageEmbed) => {
         for (const color of colors)
             check.push(`${color} tier`);
         const roles = guild.roles.cache.filter(role => !(check.includes(role.name)));
-        for (const [id, name] of roles) {
+        for (const [id, name] of roles)
             if (!(name.name === "@everyone") && !(name.name === "Rombot"))
                 guild.roles.cache.find(role => role.id === id).setColor("STANDARD");
-        }
         for (const color of colors) {
             if (!(guild.roles.cache.find(role => role.name === `${color} tier`)))
                 guild.roles.create({
