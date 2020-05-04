@@ -7,11 +7,15 @@ module.exports = async (message, keyv, MessageEmbed) => {
     const guild = message.guild;
     if (arg === "start") {
         for (const color in colors)
+            if (guild.roles.cache.find(role => role.name === `${colors[color]} tier`))
+                guild.roles.cache.find(role => role.name === `${colors[color]} tier`).delete();
+        for (const color in colors)
             if (!(guild.roles.cache.find(role => role.name === `${colors[color]} tier`)))
                 guild.roles.create({
                     data: {
                         name:  `${colors[color]} tier`,
                         color: `${colors[color].toUpperCase()}`,
+                        position: 1
                     },
                     reason: `button ${colors[color]} tier`,
                 });
