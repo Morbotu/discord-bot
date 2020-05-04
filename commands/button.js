@@ -38,11 +38,15 @@ module.exports = async (message, keyv, MessageEmbed) => {
         }, 10000);
     }
     if (arg === "press") {
+        if (!(await keyv.get(guild.id + ":button")))
+            return message.reply("The button  is dead or not installed yet.");
         for (const color of colors) {
             message.member.roles.remove(guild.roles.cache.find(role => role.name === `${color} tier`));
         }
         let roleColor = await keyv.get(guild.id + ":button")-1;
         message.member.roles.add(guild.roles.cache.find(role => role.name === `${colors[roleColor]} tier`));
+        await keyv.set(guild.id + ":button", colors.length);
+        return message.reply(`You got ${colors[roleColor]} tier.`);
     }
     if (arg === "look") {
         let currColorIndex = await keyv.get(guild.id + ":button")-1;
