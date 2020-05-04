@@ -14,5 +14,5 @@ module.exports = (client, MessageEmbed, globalprefix, keyv, message) => {
     if (message.content.toLowerCase().startsWith("r!help"))
         return help(MessageEmbed, message);
     if (message.content.toLowerCase().startsWith("r!button"))
-        return button(message);
+        return button(message, keyv, MessageEmbed);
 }
