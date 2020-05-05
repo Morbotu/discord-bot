@@ -13,7 +13,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
     const guild = message.guild;
     // -----------------------------------------------------
 
-    if (arg === "start") {
+    if (arg === "start") { // Start command. id: 0x0003
         // Get all the roles except from the color roles. id: 0x0002
         // --------------------------------------------------------------------------
         const check = [];
@@ -22,14 +22,14 @@ module.exports = async (message, keyv, MessageEmbed) => {
         const roles = guild.roles.cache.filter(role => !(check.includes(role.name)));
         // --------------------------------------------------------------------------
 
-        // Set all colors to STANDARD.
+        // Set all colors to STANDARD. id: 0x0007
         // -------------------------------------------------------------------------
         for (const [id, name] of roles)
             if (!(name.name === "@everyone") && !(name.name === "Rombot"))
                 guild.roles.cache.find(role => role.id === id).setColor("STANDARD");
         // -------------------------------------------------------------------------
 
-        // Make all roles if they don't exist yet.
+        // Make all roles if they don't exist yet. id: 0x0008
         // ----------------------------------------------------------------------
         for (const color of colors) {
             if (!(guild.roles.cache.find(role => role.name === `${color} tier`)))
@@ -44,7 +44,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
         }
         // ----------------------------------------------------------------------
 
-        // Start the timer. It works if the button is alive but it isn't recommended.
+        // Start the timer. It works if the button is alive but it isn't recommended. id: 0x0009
         // -----------------------------------------------------------------------------------
         if (!(await keyv.get(guild.id + ":button"))) { // Prevend double timers.
             await keyv.set(guild.id + ":button", colors.length);
@@ -59,27 +59,27 @@ module.exports = async (message, keyv, MessageEmbed) => {
                     );
                 }
             }, 10000);
-            return; // TODO: Write some usefull feedback.
+            return; // TODO: Write some usefull feedback. id: 0x0006
         }
         await keyv.set(guild.id + ":button", colors.length);
-        return; // TODO: Write some usefull feedback.
+        return; // TODO: Write some usefull feedback. id: 0x0005
         // -----------------------------------------------------------------------------------
     }
 
-    if (arg === "press") {
-        // Warns the player that there is no button to press.
+    if (arg === "press") { // Press command. id: 0x0004
+        // Warns the player that there is no button to press. id: 0x000a
         // -----------------------------------------------------------------
         if (!(await keyv.get(guild.id + ":button")))
             return message.reply("The button  is dead or not started yet.");
         // -----------------------------------------------------------------
 
-        // Remove all color roles the player has.
+        // Remove all color roles the player has. id: 0x000b
         // -------------------------------------------------------------------------------------------
         for (const color of colors)
             message.member.roles.remove(guild.roles.cache.find(role => role.name === `${color} tier`));
         // -------------------------------------------------------------------------------------------
 
-        // Asign new role to player and reset the timer.
+        // Asign new role to player and reset the timer. id: 0x000c
         // ------------------------------------------------------------------------------------------------
         let roleColor = await keyv.get(guild.id + ":button")-1;
         message.member.roles.add(guild.roles.cache.find(role => role.name === `${colors[roleColor]} tier`));
@@ -88,27 +88,27 @@ module.exports = async (message, keyv, MessageEmbed) => {
         // ------------------------------------------------------------------------------------------------
     }
 
-    if (arg === "look") {
-        // Get the color that is currently online.
+    if (arg === "look") { // Look command. id: 0x000d
+        // Get the color that is currently on. id: 0x000e
         // ------------------------------------------------------------------
         let currColorIndex = await keyv.get(guild.id + ":button")-1;
         let currColor = colors[currColorIndex];
         // ------------------------------------------------------------------
 
-        // Check if the button isn't active.
+        // Check if the button isn't active. id: 0x000f
         // ------------------------------------------------------------------
         if (!currColor)
             return message.reply("The button  is dead or not installed yet.");
         // ------------------------------------------------------------------
 
-        // Make a bar of the color emoji's.
+        // Make a bar of the color emoji's. id: 0x0010
         // ------------------------------------------------
         let colorEmojis = "";
         for (const color of colors)
             colorEmojis = colorEmojis + `:${color}_square:`;
         // ------------------------------------------------
 
-        // Make a bar of the active color emoji's.
+        // Make a bar of the active color emoji's. id: 0x0011
         // ---------------------------------------------------------------
         let countdownEmoji = "";
         for (let i = 0; i < colors.length; i++)
@@ -118,7 +118,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
                 countdownEmoji = countdownEmoji + ":white_square_button:";
         // ---------------------------------------------------------------
 
-        // Return the current color in a nice embed message.
+        // Return the current color in a nice embed message. id: 0x00012
         // -------------------------------------------------------------------------------------
         return channel.send(new MessageEmbed()
             .setTitle("Button")
