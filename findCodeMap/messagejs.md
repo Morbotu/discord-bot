@@ -7,6 +7,8 @@
 - Bot send a message with all commands. id: 0x0005
 - Bot calls button. id: 0x0006
 
+# Arguments
+
 # TODO's
 
 # FIXME's
