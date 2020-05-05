@@ -116,13 +116,17 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
     }
     /* -------------------------------- !SECTION -------------------------------- */
 
-    /* ---------------- SECTION If duel is active do this parent. --------------- */
+    /* ---------------- SECTION If duel is active do this part. --------------- */
     if (await keyv.get(message.author.id + ":dueling")) {
+        /* ------------- ANCHOR Declare variables for rest of the code. ------------- */
         var room = await keyv.get(message.author.id + ":room");
         var health = await keyv.get(room + ":health");
         var turn = await keyv.get(room + ":turn");
         var players = (await keyv.get(room + ":players")).split(":");
         var turnId = players[turn];
+        /* -------------------------------------------------------------------------- */
+
+        /* ------------------------- SECTION "bite" attack. ------------------------- */
         if (message.content.toLowerCase() === "bite") {
             if (!(message.author.id === turnId))
                 return message.reply("It's not your turn.");
@@ -135,6 +139,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 await keyv.set(room + ":turn", 0);
             }
         }
+        /* -------------------------------- !SECTION -------------------------------- */
+
+        /* ------------------------- SECTION "punch" attack. ------------------------ */
         if (message.content.toLowerCase() === "punch") {
             if (!(message.author.id === turnId))
                 return message.reply("It's not your turn.");
@@ -161,6 +168,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 await keyv.set(room + ":turn", 0);
             }
         }
+        /* -------------------------------- !SECTION -------------------------------- */
+
+        /* ------------------------- SECTION "stab" attack. ------------------------- */
         if (message.content.toLowerCase() === "stab") {
             if (!(message.author.id === turnId))
                 return message.reply("It's not your turn.");
@@ -187,6 +197,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 await keyv.set(room + ":turn", 0);
             }
         }
+        /* -------------------------------- !SECTION -------------------------------- */
+
+        /* ---------------------- SECTION "mega_punch" attack. ---------------------- */
         if (message.content.toLowerCase() === "mega_punch") {
             if (!(message.author.id === turnId))
                 return message.reply("It's not your turn.");
@@ -213,6 +226,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 await keyv.set(room + ":turn", 0);
             }
         }
+        /* -------------------------------- !SECTION -------------------------------- */
+
+        /* ------------------------- SECTION "hack" attack. ------------------------- */
         if (message.content.toLowerCase() === "hack") {
             if (!(message.author.id === turnId))
                 return message.reply("It's not your turn.");
@@ -227,6 +243,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 await keyv.set(room + ":turn", 0);
             }
         }
+        /* -------------------------------- !SECTION -------------------------------- */
+
+        /* ------------------------- SECTION Check for win. ------------------------- */
         let newHealth = await keyv.get(room + ":health");
         if (newHealth[0] <= 0) {
             let rooms = await keyv.get("rooms");
@@ -266,11 +285,15 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 .setColor(0xff0000)
             );
         }
+        /* -------------------------------- !SECTION -------------------------------- */
+
+        /* ----------------------- ANCHOR Send the new health. ---------------------- */
         return channel.send(new MessageEmbed()
             .setTitle("Attack was successful.")
             .setDescription(`<@${players[0]}> health: ${newHealth[0]}\n<@${players[1]}> health: ${newHealth[1]}`)
             .setColor(0xff0000)
         );
+        /* -------------------------------------------------------------------------- */
     }
     /* -------------------------------- !SECTION -------------------------------- */
 }
