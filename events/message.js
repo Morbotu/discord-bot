@@ -18,7 +18,7 @@ module.exports = (client, MessageEmbed, globalprefix, keyv, message) => {
     
     // Bot calls duel. id: 0x0003
     // -----------------------------------------------------------------------------------------------------------------------
-    if (["r!duel","yes","no","bite","punch","stab","mega_punch","hack"].includes(message.content.toLowerCase().split(" ")[0]))
+    if ([globalprefix + "duel","yes","no","bite","punch","stab","mega_punch","hack"].includes(message.content.toLowerCase().split(" ")[0]))
         return duel(keyv, MessageEmbed, message, globalprefix);
     // -----------------------------------------------------------------------------------------------------------------------
     
@@ -30,13 +30,13 @@ module.exports = (client, MessageEmbed, globalprefix, keyv, message) => {
 
     // Bot sends a message with all commands. id: 0x0005
     // ----------------------------------------------------
-    if (message.content.toLowerCase().startsWith("r!help"))
+    if (message.content.toLowerCase().startsWith(globalprefix + "help"))
         return help(MessageEmbed, message);
     // ----------------------------------------------------
 
     // Bot calls button. id: 0x0006
     // ------------------------------------------------------
-    if (message.content.toLowerCase().startsWith("r!button"))
+    if (message.content.toLowerCase().startsWith(globalprefix + "button"))
         return button(message, keyv, MessageEmbed);
     // ------------------------------------------------------
 }
