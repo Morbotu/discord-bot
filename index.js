@@ -1,37 +1,33 @@
-/*
-    27-04-2020
-    This is a simple bot.
-    In the index is some library magic going on.
-    The rest is a bit of if statements giving some magic back.
+/* 
+* 27-04-2020
+* This is a simple bot.
+* In the index is some library magic going on.
+* The rest is a bit of if statements giving some magic back.
 */
 
-// Have rookout installed for debugging in prod. id: 0x0000
-// -------------------------------------------------------------------------
+/* ---------- ANCHOR Have rookout installed for debugging in prod. --------- */
 const rookout = require('rookout');
 rookout.start({
     token: '97c353b198a9dec0d4ac3f6f4d6c65d654cecda0d8118c82fc40f3d35f5d796a'
 })
-// -------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
-// Some librarys. id: 0x0003
-// ----------------------------------------------------
+/* ------------------------- ANCHOR Some librarys. ------------------------- */
 require("dotenv").config();
 const { Client, MessageEmbed } = require('discord.js');
 const client = new Client();
 const fs = require("fs");
-// ----------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
-// Memory setup. id: 0x0001
-// -----------------------------------------------------------
+/* -------------------------- ANCHOR Memory setup. ------------------------- */
 const Keyv = require('keyv');
 const keyv = new Keyv();
 keyv.on('error', err => console.log('Connection Error', err));
-// -----------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
-const globalprefix = "r!"; // Global prefix. id: 0x0002
+const globalprefix = "r!"; // NOTE Global prefix.
 
-// Get bot commands. id: 0x0004
-// -------------------------------------------------------------------------------------------------------
+/* ------------------------ ANCHOR Get bot commands. ----------------------- */
 fs.readdir("./events/", (err, files) => {
     files.forEach(file => {
         const eventHandler = require(`./events/${file}`);
@@ -39,7 +35,7 @@ fs.readdir("./events/", (err, files) => {
         client.on(eventName, (...args) => eventHandler(client, MessageEmbed, globalprefix, keyv, ...args));
     })
 })
-// -------------------------------------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 // client.login(process.env.BOT_TOKEN);
-client.login("NzAzNTg4ODgzNjAxOTQ4NzQ0.XqQ6kQ.PKI0HoThZhL3USL7_vNv3HlosI8"); // Login bot client. id: 0x0005
+client.login("NzAzNTg4ODgzNjAxOTQ4NzQ0.XqQ6kQ.PKI0HoThZhL3USL7_vNv3HlosI8"); // NOTE Login bot client.

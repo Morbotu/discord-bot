@@ -1,21 +1,28 @@
-module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
-    const channel = message.channel;
-    if (message.content.toLowerCase().startsWith(globalprefix + "duel")) {
+/* ------------------------ SECTION Code of function ------------------------ */
+module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
+    const channel = message.channel; // NOTE Const channel where the duel is.
+
+    /* ------------------------- SECTION "duel" command. ------------------------ */
+    if (message.content.toLowerCase().startsWith(globalPrefix + "duel")) {
+        /* ---------------------- ANCHOR Test for invalid use. ---------------------- */
         if (await keyv.get(message.author.id + ":occupied"))
-            return message.reply("You are already in a fight or you need to awnser a request.");
+            return message.reply("You are already in a fight or you need to answer a request.");
         if (message.mentions.members.keyArray().length > 1) {
             return message.reply("You can only mention one player.");
         }
-        const opponent = message.mentions.members.first();
+        const opponent = message.mentions.members.first(); // NOTE Get player mentioned.
         if (!opponent) 
             return message.reply("Mention the player you want to challenge.");
-        if (await keyv.get(opponent.user.id + ":occupied")) 
-            return message.reply("This player is already in a fight or still needs to awnser a request.");
-        if (await keyv.get(message.author.id + ":timer")) {
+        if (await keyv.get(opponent.user.id + ":occupied")) // NOTE Test if player is already in a duel.
+            return message.reply("This player is already in a fight or still needs to answer a request.");
+        if (await keyv.get(message.author.id + ":timer")) { // NOTE Test if the cool down is over.
             let d = new Date();
-            let timeleft = 30 - Math.round((d.getTime() - (await keyv.get(message.author.id + ":timeleft")))/1000);
-            return message.reply(`You need to wait ${timeleft} seconds before you can send another request.`);
+            let timeLeft = 30 - Math.round((d.getTime() - (await keyv.get(message.author.id + ":timeLeft")))/1000);
+            return message.reply(`You need to wait ${timeLeft} seconds before you can send another request.`);
         }
+        /* -------------------------------------------------------------------------- */
+
+        /* ---------------- ANCHOR Setup all variables for a default. --------------- */
         await keyv.set(opponent.user.id + ":occupied", true);
         await keyv.set(opponent.user.id + ":challenged", true);
         await keyv.set(opponent.user.id + ":challenger", message.author.id);
@@ -24,12 +31,12 @@ module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
         await keyv.set(message.author.id + ":expire", true);
         await keyv.set(message.author.id + ":timer", true);
         let d = new Date();
-        await keyv.set(message.author.id + ":timeleft", d.getTime());
+        await keyv.set(message.author.id + ":timeLeft", d.getTime());
         setTimeout(async function() {
             if (await keyv.get(message.author.id + ":expire")) {
                 await keyv.delete(message.author.id + ":expire");
                 await keyv.delete(message.author.id + ":timer");
-                await keyv.delete(message.author.id + ":timeleft");
+                await keyv.delete(message.author.id + ":timeLeft");
                 await keyv.set(opponent.user.id + ":occupied");
                 await keyv.set(opponent.user.id + ":challenged");
                 await keyv.set(opponent.user.id + ":challenger");
@@ -37,18 +44,28 @@ module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
                 await keyv.set(message.author.id + ":challenging");
                 return channel.send("Duel expired.");
             }
-            await keyv.delete(message.author.id + ":timeleft");
+            await keyv.delete(message.author.id + ":timeLeft");
             await keyv.delete(message.author.id + ":timer");
             return channel.send(`${message.author.toString()}, You can now duel someone.`);
         },30000);
+        /* -------------------------------------------------------------------------- */
+
         return channel.send(`${opponent.toString()} has 30 seconds to accept with \`yes\` or refuse with \`no\``);
     }
+    /* -------------------------------- !SECTION -------------------------------- */
+
+    /* ----------------- SECTION "yes" command to accept invite. ---------------- */
     if (message.content.toLowerCase() === "yes" && await keyv.get(message.author.id + ":challenged")) {
-        let challenger = await keyv.get(message.author.id + ":challenger");
+        let challenger = await keyv.get(message.author.id + ":challenger"); // NOTE Get the challenger id.
+
+        /* ----------- ANCHOR Delete variables that are no longer needed. ----------- */
         await keyv.delete(challenger + ":expire");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(challenger + ":challenging");
         await keyv.delete(message.author.id + ":challenger");
+        /* -------------------------------------------------------------------------- */
+
+        /* ------------------ ANCHOR Create a room for the default. ----------------- */
         let room = "room" + Math.floor(Math.random() * 10000);
         let rooms = [];
         if (await keyv.get("rooms") != null)
@@ -57,6 +74,9 @@ module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
             room = "room" + Math.floor(Math.random() * 10000);
         rooms.push(room);
         await keyv.set("rooms", rooms);
+        /* -------------------------------------------------------------------------- */
+
+        /* --------------------- ANCHOR Declare more variables. --------------------- */
         await keyv.set(room + ":players", message.author.id + ":" + challenger);
         let turn = Math.floor(Math.random() * 2);
         await keyv.set(room + ":turn", turn);
@@ -75,17 +95,28 @@ module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
                 "`mega_punch` 40 damage 40% success rate")
             .setColor(0xff0000)
         );
+        /* -------------------------------------------------------------------------- */
     }
+    /* -------------------------------- !SECTION -------------------------------- */
+
+    /* ----------------- SECTION "no" command to refuse invite. ----------------- */
     if (message.content.toLowerCase() === "no" && await keyv.get(message.author.id + ":challenged")) {
-        let challenger = await keyv.get(message.author.id + ":challenger")
+        let challenger = await keyv.get(message.author.id + ":challenger") // NOTE Get the challengers id.
+
+        /* ---------------------- ANCHOR Delete all variables. ---------------------- */
         await keyv.delete(message.author.id + ":occupied");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(message.author.id + ":challenger");
         await keyv.delete(challenger + ":expire");
         await keyv.delete(challenger + ":occupied");
         await keyv.delete(challenger + ":challenging");
+        /* -------------------------------------------------------------------------- */
+
         return channel.send(`${message.author.toString()} refused`);
     }
+    /* -------------------------------- !SECTION -------------------------------- */
+
+    /* ---------------- SECTION If duel is active do this parent. --------------- */
     if (await keyv.get(message.author.id + ":dueling")) {
         var room = await keyv.get(message.author.id + ":room");
         var health = await keyv.get(room + ":health");
@@ -235,11 +266,12 @@ module.exports = async (keyv, MessageEmbed, message, globalprefix) => {
                 .setColor(0xff0000)
             );
         }
-    
         return channel.send(new MessageEmbed()
-            .setTitle("Attack was succesfull.")
+            .setTitle("Attack was successful.")
             .setDescription(`<@${players[0]}> health: ${newHealth[0]}\n<@${players[1]}> health: ${newHealth[1]}`)
             .setColor(0xff0000)
         );
     }
+    /* -------------------------------- !SECTION -------------------------------- */
 }
+/* -------------------------------- !SECTION -------------------------------- */
