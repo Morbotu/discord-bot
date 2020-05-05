@@ -24,6 +24,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
                     reason: `button ${color} tier`,
                 });
         }
+        // TODO
         await keyv.set(guild.id + ":button", colors.length);
         let interval = setInterval(async function() {
             await keyv.set(guild.id + ":button", await keyv.get(guild.id + ":button") - 1);
