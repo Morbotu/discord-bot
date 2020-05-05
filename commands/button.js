@@ -1,8 +1,9 @@
 module.exports = async (message, keyv, MessageEmbed) => {
+    // Check if there is only one argument.
     if (message.content.split(" ").length > 2)
         return message.reply("This command only has one argument.");
     const arg = message.content.toLowerCase().split(" ")[1];
-    const colors = ["blue", "red", "green"];
+    const colors = ["blue", "red", "green"]; // Change for more colors. Right is lower tier and left higher.
     const channel = message.channel;
     const guild = message.guild;
     if (arg === "start") {
@@ -24,7 +25,6 @@ module.exports = async (message, keyv, MessageEmbed) => {
                     reason: `button ${color} tier`,
                 });
         }
-        // TODO
         await keyv.set(guild.id + ":button", colors.length);
         let interval = setInterval(async function() {
             await keyv.set(guild.id + ":button", await keyv.get(guild.id + ":button") - 1);
