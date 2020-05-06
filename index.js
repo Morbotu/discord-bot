@@ -12,7 +12,7 @@ rookout.start({
 })
 /* -------------------------------------------------------------------------- */
 
-/* ------------------------- ANCHOR Some librarys. ------------------------- */
+/* ------------------------- ANCHOR Some libraries. ------------------------- */
 require("dotenv").config();
 const { Client, MessageEmbed } = require('discord.js');
 const client = new Client();
@@ -25,14 +25,14 @@ const keyv = new Keyv();
 keyv.on('error', err => console.log('Connection Error', err));
 /* -------------------------------------------------------------------------- */
 
-const globalprefix = "r!"; // NOTE Global prefix.
+const globalPrefix = "r!"; // NOTE Global prefix.
 
 /* ------------------------ ANCHOR Get bot commands. ----------------------- */
 fs.readdir("./events/", (err, files) => {
     files.forEach(file => {
         const eventHandler = require(`./events/${file}`);
         const eventName = file.split(".")[0];
-        client.on(eventName, (...args) => eventHandler(client, MessageEmbed, globalprefix, keyv, ...args));
+        client.on(eventName, (...args) => eventHandler(client, MessageEmbed, globalPrefix, keyv, ...args));
     })
 })
 /* -------------------------------------------------------------------------- */

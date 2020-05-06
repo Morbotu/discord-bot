@@ -1,7 +1,7 @@
 /* ------------------------ SECTION Code of function ------------------------ */
 module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
     const channel = message.channel; // NOTE Const channel where the duel is.
-
+    
     /* ------------------------- SECTION "duel" command. ------------------------ */
     if (message.content.toLowerCase().startsWith(globalPrefix + "duel")) {
         /* ---------------------- ANCHOR Test for invalid use. ---------------------- */
@@ -49,7 +49,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
             return channel.send(`${message.author.toString()}, You can now duel someone.`);
         },30000);
         /* -------------------------------------------------------------------------- */
-
+        
         return channel.send(`${opponent.toString()} has 30 seconds to accept with \`yes\` or refuse with \`no\``);
     }
     /* -------------------------------- !SECTION -------------------------------- */
