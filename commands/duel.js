@@ -1,6 +1,9 @@
 /* ------------------------- SECTION Attack function. ------------------------ */
 async function attack(damage, successChange, keyv, message, turnId, turn, room, health) {
-    if (!(message.author.id === turnId)) return 1; // NOTE Return if it is not the turn of the player.
+    /* ----------- ANCHOR Return if it is not the turn of the player. ----------- */
+    if (!(message.author.id === turnId)) return 1;
+    /* -------------------------------------------------------------------------- */
+
     if (turn === 0) {
         /* ---------------- ANCHOR Returns if the attack has failed. ---------------- */
         if (Math.ceil(Math.random() * 100) > successChange) {
@@ -153,9 +156,8 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
         message.content.toLowerCase() === "no" &&
         (await keyv.get(message.author.id + ":challenged"))
     ) {
-        let challenger = await keyv.get(message.author.id + ":challenger"); // NOTE Get the challengers id.
-
         /* ---------------------- ANCHOR Delete all variables. ---------------------- */
+        let challenger = await keyv.get(message.author.id + ":challenger"); // NOTE Get the challengers id.
         await keyv.delete(message.author.id + ":occupied");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(message.author.id + ":challenger");
