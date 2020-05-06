@@ -6,7 +6,7 @@ const help = require("../commands/help");
 const button = require("../commands/button");
 /* -------------------------------------------------------------------------- */
 
-/* ------------------------ SECTION Code of function. ----------------------- */
+/* ------------------------ SECTION Code of module. ----------------------- */
 module.exports = (client, MessageEmbed, globalPrefix, keyv, message) => {
     if (message.author.bot) return; // NOTE Makes sure the bot doesn't answer other bots.
 
@@ -32,8 +32,7 @@ module.exports = (client, MessageEmbed, globalPrefix, keyv, message) => {
     /* -------------------------------------------------------------------------- */
 
     /* --------------- ANCHOR Bot send all active room from duels. -------------- */
-    if (message.content.toLowerCase() === "get rooms")
-        return getActiveRooms(keyv, message);
+    if (message.content.toLowerCase() === "get rooms") return getActiveRooms(keyv, message);
     /* -------------------------------------------------------------------------- */
 
     /* -------------- ANCHOR Bot sends a message with all commands. ------------- */

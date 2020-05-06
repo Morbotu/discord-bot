@@ -1,4 +1,4 @@
-/* ------------------------ SECTION Code of function. ----------------------- */
+/* ------------------------ SECTION Code of module. ----------------------- */
 module.exports = (MessageEmbed, message) => {
     /* ---------------------- ANCHOR Helps with a command. ---------------------- */
     if (message.content.split(" ").length === 2) {
