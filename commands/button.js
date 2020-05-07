@@ -59,7 +59,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
                 if (checkIfOnline(guild)) {
                     let newButtonTime = await keyv.get(guild.id + ":buttonTimer");
                     await keyv.set(guild.id + ":buttonTimer", ++newButtonTime);
-                    if ((await keyv.get(guild.id + ":buttonTimer")) === 10) {
+                    if ((await keyv.get(guild.id + ":buttonTimer")) === 1800) {
                         await keyv.set(
                             guild.id + ":button",
                             (await keyv.get(guild.id + ":button")) - 1
