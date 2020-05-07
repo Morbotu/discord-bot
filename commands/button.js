@@ -42,7 +42,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
 
         for (const color of buttonColors) {
             if (!guild.roles.cache.find((role) => role.name === `${color} tier`))
-                guild.roles.create({
+                await guild.roles.create({
                     data: {
                         name: `${color} tier`,
                         color: `${color.toUpperCase()}`,
