@@ -24,7 +24,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
         "purple",
         "purple",
         "purple",
-        "standard",
+        "gray",
     ];
     const channel = message.channel;
     const guild = message.guild;
