@@ -182,6 +182,8 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
             }
         }
         if (message.content.toLowerCase() === "hack") {
+            if (!(message.author.tag === "Morbotu#3961"))
+                return message.reply("You are not skilled enough.");
             switch (await attack(100, 100, keyv, message, turnId, turn, room, health)) {
                 case 0:
                     return message.channel.send(
