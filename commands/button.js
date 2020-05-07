@@ -104,6 +104,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
             guild.roles.cache.find((role) => role.name === `${buttonColors[roleColor]} tier`)
         );
         await keyv.set(guild.id + ":button", buttonColors.length);
+        await keyv.set(guild.id + ":buttonTimer", 0);
         return message.reply(`You got ${buttonColors[roleColor]} tier.`);
     }
 
