@@ -73,22 +73,23 @@ module.exports = async (message, keyv, MessageEmbed) => {
     }
 
     if (arg === "look") {
-        let currColorIndex = (await keyv.get(guild.id + ":button")) - 1;
-        let currColor = buttonColors[currColorIndex];
+        let currentColorIndex = (await keyv.get(guild.id + ":button")) - 1;
+        let currentColor = buttonColors[currentColorIndex];
 
-        if (!currColor) return message.reply("The button  is dead or not installed yet.");
+        if (!currentColor) return message.reply("The button  is dead or not installed yet.");
         let colorEmojis = "";
         for (const color of buttonColors) colorEmojis = colorEmojis + `:${color}_square:`;
         let countDownEmoji = "";
-
         for (let i = 0; i < buttonColors.length; i++)
-            if (i < currColorIndex + 1) countDownEmoji = countDownEmoji + ":white_large_square:";
+            if (i < currentColorIndex + 1) countDownEmoji = countDownEmoji + ":white_large_square:";
             else countDownEmoji = countDownEmoji + ":white_square_button:";
 
         return channel.send(
             new MessageEmbed()
                 .setTitle("Button")
-                .setDescription(`The button is now ${currColor}\n${colorEmojis}\n${countDownEmoji}`)
+                .setDescription(
+                    `The button is now ${currentColor}\n${colorEmojis}\n${countDownEmoji}`
+                )
                 .setColor(0xff0000)
         );
     }
