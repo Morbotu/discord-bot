@@ -52,14 +52,22 @@ module.exports = async (message, keyv, MessageEmbed) => {
                 });
         }
 
+        await keyv.set(guild.id + ":button", buttonColors.length);
+        await keyv.set(guild.id + ":buttonTimer", 0);
         if (!(await keyv.get(guild.id + ":button"))) {
-            await keyv.set(guild.id + ":button", buttonColors.length);
             let interval = setInterval(async function () {
                 if (checkIfOnline(guild)) {
                     await keyv.set(
-                        guild.id + ":button",
-                        (await keyv.get(guild.id + ":button")) - 1
+                        guild.id + ":buttonTimer",
+                        keyv.get(guild.id + ":buttonTimer")++
                     );
+                    if ((await keyv.get(guild.id === ":buttonTimer")) === 600) {
+                        await keyv.set(
+                            guild.id + ":button",
+                            (await keyv.get(guild.id + ":button")) - 1
+                        );
+                        await keyv.set(guild.id === ":buttonTimer", 0);
+                    }
                     if ((await keyv.get(guild.id + ":button")) === 0) {
                         clearInterval(interval);
                         return channel.send(
@@ -78,7 +86,6 @@ module.exports = async (message, keyv, MessageEmbed) => {
                     .setColor(0xff0000)
             );
         }
-        await keyv.set(guild.id + ":button", buttonColors.length);
         return channel.send(
             new MessageEmbed()
                 .setTitle("Restart button")
