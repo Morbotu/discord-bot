@@ -5,29 +5,25 @@
  * The rest is a bit of if statements giving some magic back.
  */
 
-/* ---------- ANCHOR Have rookout installed for debugging in prod. --------- */
+// This program can use rookout to debug in prod.
 const rookout = require("rookout");
 rookout.start({
     token: "97c353b198a9dec0d4ac3f6f4d6c65d654cecda0d8118c82fc40f3d35f5d796a",
 });
-/* -------------------------------------------------------------------------- */
 
-/* ------------------------- ANCHOR Some libraries. ------------------------- */
 require("dotenv").config();
 const { Client, MessageEmbed } = require("discord.js");
 const client = new Client();
 const fs = require("fs");
-/* -------------------------------------------------------------------------- */
 
-/* -------------------------- ANCHOR Memory setup. ------------------------- */
+// Keyv is used to save variables locally.
 const Keyv = require("keyv");
 const keyv = new Keyv();
 keyv.on("error", (err) => console.log("Connection Error", err));
-/* -------------------------------------------------------------------------- */
 
-const globalPrefix = "r!"; // NOTE Global prefix.
+// Change this variables to change the prefix of every commands.
+const globalPrefix = "r!";
 
-/* ------------------------ ANCHOR Start bot events. ------------------------ */
 fs.readdir("./events/", (err, files) => {
     files.forEach((file) => {
         const eventHandler = require(`./events/${file}`);
@@ -37,7 +33,6 @@ fs.readdir("./events/", (err, files) => {
         );
     });
 });
-/* -------------------------------------------------------------------------- */
 
 // client.login(process.env.BOT_TOKEN);
-client.login("NzAzNTg4ODgzNjAxOTQ4NzQ0.XqQ6kQ.PKI0HoThZhL3USL7_vNv3HlosI8"); // NOTE Login bot client.
+client.login("NzAzNTg4ODgzNjAxOTQ4NzQ0.XqQ6kQ.PKI0HoThZhL3USL7_vNv3HlosI8");

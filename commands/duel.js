@@ -1,87 +1,67 @@
-/* ------------------------- SECTION Attack function. ------------------------ */
 async function attack(damage, successChange, keyv, message, turnId, turn, room, health) {
-    /* ----------- ANCHOR Return if it is not the turn of the player. ----------- */
     if (!(message.author.id === turnId)) return 1;
-    /* -------------------------------------------------------------------------- */
 
     if (turn === 0) {
-        /* ---------------- ANCHOR Returns if the attack has failed. ---------------- */
         if (Math.ceil(Math.random() * 100) > successChange) {
             await keyv.set(room + ":turn", 1);
             return 0;
         }
-        /* -------------------------------------------------------------------------- */
-
         await keyv.set(room + ":health", [health[0], health[1] - damage]);
         await keyv.set(room + ":turn", 1);
     }
     if (turn === 1) {
-        /* ---------------- ANCHOR Returns if the attack has failed. ---------------- */
         if (Math.ceil(Math.random() * 100) > successChange) {
             await keyv.set(room + ":turn", 0);
             return 0;
         }
-        /* -------------------------------------------------------------------------- */
-
         await keyv.set(room + ":health", [health[0] - damage, health[1]]);
         await keyv.set(room + ":turn", 0);
     }
 }
-/* -------------------------------- !SECTION -------------------------------- */
 
-/* ------------------------ SECTION Code of module. ------------------------ */
 module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
     const channel = message.channel;
-
-    /* ------------------------- SECTION "duel" command. ------------------------ */
     if (message.content.toLowerCase().startsWith(globalPrefix + "duel")) {
-        /* ------------------ ANCHOR Test for invalid command use. ------------------ */
         if (message.mentions.members.keyArray().length > 1) {
             return message.reply("You can only mention one player.");
         }
         const opponent = message.mentions.members.first();
         if (!opponent) return message.reply("Mention the player you want to challenge.");
-        /* -------------------------------------------------------------------------- */
 
-        /* ------ ANCHOR Tests if one of the two players are already in a duel. ----- */
         if (await keyv.get(message.author.id + ":occupied"))
             return message.reply("You are already in a fight or you need to answer a request.");
         if (await keyv.get(opponent.user.id + ":occupied"))
             return message.reply(
                 "This player is already in a fight or still needs to answer a request."
             );
-        /* -------------------------------------------------------------------------- */
 
-        /* -------------- ANCHOR Test if the invite cool down is over. -------------- */
-        if (await keyv.get(message.author.id + ":timer")) {
+        if (await keyv.get(message.author.id + ":coolDownTimer")) {
             let d = new Date();
             let timeLeft =
                 30 -
                 Math.round(
-                    (d.getTime() - (await keyv.get(message.author.id + ":timeLeft"))) / 1000
+                    (d.getTime() - (await keyv.get(message.author.id + ":coolDownTime"))) / 1000
                 );
             return message.reply(
                 `You need to wait ${timeLeft} seconds before you can send another request.`
             );
         }
-        /* -------------------------------------------------------------------------- */
 
-        // REVIEW Maybe make the variables in keyv part more compact or just use an entire other system.
-        /* ------------- ANCHOR Setup all variables for a duel request. ------------- */
         await keyv.set(opponent.user.id + ":occupied", true);
         await keyv.set(opponent.user.id + ":challenged", true);
         await keyv.set(opponent.user.id + ":challenger", message.author.id);
         await keyv.set(message.author.id + ":occupied", true);
         await keyv.set(message.author.id + ":challenging", true);
         await keyv.set(message.author.id + ":expire", true);
-        await keyv.set(message.author.id + ":timer", true);
+        await keyv.set(message.author.id + ":coolDownTimer", true);
         let d = new Date();
-        await keyv.set(message.author.id + ":timeLeft", d.getTime());
+
+        await keyv.set(message.author.id + ":coolDownTime", d.getTime());
         setTimeout(async function () {
             if (await keyv.get(message.author.id + ":expire")) {
                 await keyv.delete(message.author.id + ":expire");
-                await keyv.delete(message.author.id + ":timer");
-                await keyv.delete(message.author.id + ":timeLeft");
+                await keyv.delete(message.author.id + ":coolDownTimer");
+                await keyv.delete(message.author.id + ":coolDownTime");
                 await keyv.set(opponent.user.id + ":occupied");
                 await keyv.set(opponent.user.id + ":challenged");
                 await keyv.set(opponent.user.id + ":challenger");
@@ -89,42 +69,32 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 await keyv.set(message.author.id + ":challenging");
                 return channel.send("Duel expired.");
             }
-            await keyv.delete(message.author.id + ":timeLeft");
-            await keyv.delete(message.author.id + ":timer");
+            await keyv.delete(message.author.id + ":coolDownTime");
+            await keyv.delete(message.author.id + ":coolDownTimer");
             return channel.send(`${message.author.toString()}, You can now duel someone.`);
         }, 30000);
-        /* -------------------------------------------------------------------------- */
 
         return channel.send(
             `${opponent.toString()} has 30 seconds to accept with \`yes\` or refuse with \`no\``
         );
     }
-    /* -------------------------------- !SECTION -------------------------------- */
-
-    /* ----------------- SECTION "yes" command to accept invite. ---------------- */
     if (
         message.content.toLowerCase() === "yes" &&
         (await keyv.get(message.author.id + ":challenged"))
     ) {
-        let challenger = await keyv.get(message.author.id + ":challenger"); // NOTE Get the challenger id.
-
-        /* ---------------- ANCHOR Remove variables for the request. ---------------- */
+        let challenger = await keyv.get(message.author.id + ":challenger");
         await keyv.delete(challenger + ":expire");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(challenger + ":challenging");
         await keyv.delete(message.author.id + ":challenger");
-        /* -------------------------------------------------------------------------- */
 
-        /* ------------------- ANCHOR Create a room for the duel. ------------------- */
         let room = "room" + Math.floor(Math.random() * 10000);
         let rooms = [];
         if ((await keyv.get("rooms")) != null) rooms = rooms.concat(await keyv.get("rooms"));
         while (rooms.includes(room)) room = "room" + Math.floor(Math.random() * 10000);
         rooms.push(room);
         await keyv.set("rooms", rooms);
-        /* -------------------------------------------------------------------------- */
 
-        /* ----------------- ANCHOR Declare variables for the duel. ----------------- */
         await keyv.set(room + ":players", message.author.id + ":" + challenger);
         let turn = Math.floor(Math.random() * 2);
         await keyv.set(room + ":turn", turn);
@@ -147,40 +117,30 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 )
                 .setColor(0xff0000)
         );
-        /* -------------------------------------------------------------------------- */
     }
-    /* -------------------------------- !SECTION -------------------------------- */
 
-    /* ----------------- SECTION "no" command to refuse invite. ----------------- */
     if (
         message.content.toLowerCase() === "no" &&
         (await keyv.get(message.author.id + ":challenged"))
     ) {
-        /* ---------------------- ANCHOR Delete all variables. ---------------------- */
-        let challenger = await keyv.get(message.author.id + ":challenger"); // NOTE Get the challengers id.
+        let challenger = await keyv.get(message.author.id + ":challenger");
         await keyv.delete(message.author.id + ":occupied");
         await keyv.delete(message.author.id + ":challenged");
         await keyv.delete(message.author.id + ":challenger");
         await keyv.delete(challenger + ":expire");
         await keyv.delete(challenger + ":occupied");
         await keyv.delete(challenger + ":challenging");
-        /* -------------------------------------------------------------------------- */
 
         return channel.send(`${message.author.toString()} refused`);
     }
-    /* -------------------------------- !SECTION -------------------------------- */
 
-    /* ---------------- SECTION If duel is active do this part. --------------- */
     if (await keyv.get(message.author.id + ":dueling")) {
-        /* ------------- ANCHOR Declare variables for rest of the code. ------------- */
         var room = await keyv.get(message.author.id + ":room");
         var health = await keyv.get(room + ":health");
         var turn = await keyv.get(room + ":turn");
         var players = (await keyv.get(room + ":players")).split(":");
         var turnId = players[turn];
-        /* -------------------------------------------------------------------------- */
 
-        /* -------------------------- ANCHOR "bite" attack. ------------------------- */
         if (message.content.toLowerCase() === "bite") {
             switch (await attack(10, 100, keyv, message, turnId, turn, room, health)) {
                 case 0:
@@ -191,9 +151,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     return message.reply("It's not your turn.");
             }
         }
-        /* -------------------------------------------------------------------------- */
-
-        /* ------------------------- ANCHOR "punch" attack. ------------------------- */
         if (message.content.toLowerCase() === "punch") {
             switch (await attack(20, 80, keyv, message, turnId, turn, room, health)) {
                 case 0:
@@ -204,9 +161,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     return message.reply("It's not your turn.");
             }
         }
-        /* -------------------------------------------------------------------------- */
-
-        /* -------------------------- ANCHOR "stab" attack. ------------------------- */
         if (message.content.toLowerCase() === "stab") {
             switch (await attack(30, 60, keyv, message, turnId, turn, room, health)) {
                 case 0:
@@ -217,9 +171,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     return message.reply("It's not your turn.");
             }
         }
-        /* -------------------------------------------------------------------------- */
-
-        /* ----------------------- ANCHOR "mega_punch" attack. ---------------------- */
         if (message.content.toLowerCase() === "mega_punch") {
             switch (await attack(40, 40, keyv, message, turnId, turn, room, health)) {
                 case 0:
@@ -230,9 +181,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     return message.reply("It's not your turn.");
             }
         }
-        /* -------------------------------------------------------------------------- */
-
-        /* -------------------------- ANCHOR "hack" attack. ------------------------- */
         if (message.content.toLowerCase() === "hack") {
             switch (await attack(100, 100, keyv, message, turnId, turn, room, health)) {
                 case 0:
@@ -243,12 +191,8 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     return message.reply("It's not your turn.");
             }
         }
-        /* -------------------------------------------------------------------------- */
 
-        /* ------------------------- SECTION Check for win. ------------------------- */
         let newHealth = await keyv.get(room + ":health"); // NOTE Get the new health.
-
-        /* -------------------- ANCHOR Test if player 1 is dead. -------------------- */
         if (newHealth[0] <= 0) {
             let rooms = await keyv.get("rooms");
             await keyv.delete(room + ":health");
@@ -269,9 +213,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     .setColor(0xff0000)
             );
         }
-        /* -------------------------------------------------------------------------- */
-
-        /* -------------------- ANCHOR Test if player 2 is dead. -------------------- */
         if (newHealth[1] <= 0) {
             let rooms = await keyv.get("rooms");
             await keyv.delete(room + ":health");
@@ -292,10 +233,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     .setColor(0xff0000)
             );
         }
-        /* -------------------------------------------------------------------------- */
-        /* -------------------------------- !SECTION -------------------------------- */
 
-        /* ----------------------- ANCHOR Send the new health. ---------------------- */
         return channel.send(
             new MessageEmbed()
                 .setTitle("Attack was successful.")
@@ -304,8 +242,5 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 )
                 .setColor(0xff0000)
         );
-        /* -------------------------------------------------------------------------- */
     }
-    /* -------------------------------- !SECTION -------------------------------- */
 };
-/* -------------------------------- !SECTION -------------------------------- */
