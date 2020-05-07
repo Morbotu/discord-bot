@@ -1,10 +1,17 @@
+function checkIfOnline(guild) {
+    for (const guildMember of guild.members.cache) {
+        if (guildMember[1].presence.status === "online" && !guildMember[1].user.bot) return true;
+    }
+    return false;
+}
+
 module.exports = async (message, keyv, MessageEmbed) => {
     if (message.content.split(" ").length > 2)
         return message.reply("This command only has one argument.");
 
     const arg = message.content.toLowerCase().split(" ")[1];
     // Change button Colors for more colors.
-    const buttonColors = ["blue", "red", "green"];
+    const buttonColors = ["red", "orange", "green", "blue", "purple"];
     const channel = message.channel;
     const guild = message.guild;
 
@@ -12,9 +19,9 @@ module.exports = async (message, keyv, MessageEmbed) => {
         const check = [];
         for (const color of buttonColors) check.push(`${color} tier`);
         const roles = guild.roles.cache.filter((role) => !check.includes(role.name));
-        for (const [id, name] of roles)
-            if (!(name.name === "@everyone") && !(name.name === "Rombot"))
-                guild.roles.cache.find((role) => role.id === id).setColor("STANDARD");
+        // for (const [id, name] of roles)
+        //     if (!(name.name === "@everyone") && !(name.name === "Rombot"))
+        //         guild.roles.cache.find((role) => role.id === id).setColor("STANDARD");
 
         for (const color of buttonColors) {
             if (!guild.roles.cache.find((role) => role.name === `${color} tier`))
@@ -31,17 +38,22 @@ module.exports = async (message, keyv, MessageEmbed) => {
         if (!(await keyv.get(guild.id + ":button"))) {
             await keyv.set(guild.id + ":button", buttonColors.length);
             let interval = setInterval(async function () {
-                await keyv.set(guild.id + ":button", (await keyv.get(guild.id + ":button")) - 1);
-                if ((await keyv.get(guild.id + ":button")) === 0) {
-                    clearInterval(interval);
-                    return channel.send(
-                        new MessageEmbed()
-                            .setTitle("Button died")
-                            .setDescription("Type `R!button start` to start the button again.")
-                            .setColor(0xff0000)
+                if (checkIfOnline(guild)) {
+                    await keyv.set(
+                        guild.id + ":button",
+                        (await keyv.get(guild.id + ":button")) - 1
                     );
+                    if ((await keyv.get(guild.id + ":button")) === 0) {
+                        clearInterval(interval);
+                        return channel.send(
+                            new MessageEmbed()
+                                .setTitle("Button died")
+                                .setDescription("Type `R!button start` to start the button again.")
+                                .setColor(0xff0000)
+                        );
+                    }
                 }
-            }, 10000);
+            }, 600000);
             return channel.send(
                 new MessageEmbed()
                     .setTitle("Start button")
