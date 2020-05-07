@@ -11,7 +11,21 @@ module.exports = async (message, keyv, MessageEmbed) => {
 
     const arg = message.content.toLowerCase().split(" ")[1];
     // Change button Colors for more colors.
-    const buttonColors = ["red", "orange", "green", "blue", "purple"];
+    const buttonColors = [
+        "red",
+        "orange",
+        "orange",
+        "yellow",
+        "yellow",
+        "green",
+        "green",
+        "blue",
+        "blue",
+        "purple",
+        "purple",
+        "purple",
+        "standard",
+    ];
     const channel = message.channel;
     const guild = message.guild;
 
