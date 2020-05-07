@@ -24,7 +24,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
         "purple",
         "purple",
         "purple",
-        "standard",
+        "black",
     ];
     const channel = message.channel;
     const guild = message.guild;
@@ -108,7 +108,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
         if (!currentColor) return message.reply("The button  is dead or not installed yet.");
         let colorEmojis = "";
         for (const color of buttonColors)
-            if (!(color === "standard")) colorEmojis = colorEmojis + `:${color}_square:`;
+            if (!(color === "black")) colorEmojis = colorEmojis + `:${color}_square:`;
             else colorEmojis = colorEmojis + ":black_large_square:";
         let countDownEmoji = "";
         for (let i = 0; i < buttonColors.length; i++)
