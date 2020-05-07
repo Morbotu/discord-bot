@@ -194,7 +194,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
             }
         }
 
-        let newHealth = await keyv.get(room + ":health"); // NOTE Get the new health.
+        let newHealth = await keyv.get(room + ":health");
         if (newHealth[0] <= 0) {
             let rooms = await keyv.get("rooms");
             await keyv.delete(room + ":health");
