@@ -94,14 +94,15 @@ module.exports = async (message, keyv, MessageEmbed) => {
     }
 
     if (arg === "reset") {
+        message.reply("Resetting all tiers.");
         for (const guildMember of guild.members.cache)
             if (!guildMember[1].user.bot)
                 for (const color of buttonColors)
                     if (guildMember[1].roles.cache.find((role) => role.name === `${color} tier`))
-                        guildMember[1].roles.remove(
+                        await guildMember[1].roles.remove(
                             guild.roles.cache.find((role) => role.name === `${color} tier`)
                         );
-        return message.reply("Reset all tiers.");
+        return channel.send("All tiers are reset.");
     }
 
     if (arg === "press") {
