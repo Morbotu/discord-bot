@@ -92,6 +92,16 @@ module.exports = async (message, keyv, MessageEmbed) => {
                 .setColor(0xff0000)
         );
     }
+
+    if (arg === "reset") {
+        for (const guildMember of guild.members.cache)
+            for (const color of buttonColors)
+                guildMember[1].roles.remove(
+                    guild.roles.cache.find((role) => role.name === `${color} tier`)
+                );
+        return message.reply("Reset all tiers.");
+    }
+
     if (arg === "press") {
         if (!(await keyv.get(guild.id + ":button")))
             return message.reply("The button  is dead or not started yet.");

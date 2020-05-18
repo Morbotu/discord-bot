@@ -16,7 +16,7 @@ module.exports = (MessageEmbed, message) => {
                 new MessageEmbed()
                     .setTitle("Help page: button")
                     .setDescription(
-                        "**Usage:**\n`R!help button_start`,`R!help button_look`,`R!help button_press`\n\n**Description:**\nPlay a exiting game where the player that is online the most wins."
+                        "**Usage:**\n`R!help button_start`,`R!help button_look`,`R!help button_press`,`R!help button_reset`\n\n**Description:**\nPlay a exiting game where the player that is online the most wins."
                     )
                     .setColor(0xff0000)
             );
@@ -44,6 +44,15 @@ module.exports = (MessageEmbed, message) => {
                     .setTitle("Help page: button press")
                     .setDescription(
                         "**Usage:**\n`R!button press`\n\n**Description:**\nPress the button to get the tier it's currently on."
+                    )
+                    .setColor(0xff0000)
+            );
+        if (helpSubject === "button_reset")
+            return channel.send(
+                new MessageEmbed()
+                    .setTitle("Help page: button press")
+                    .setDescription(
+                        "**Usage:**\n`R!button reset`\n\n**Description**\nReset all tiers from all players."
                     )
                     .setColor(0xff0000)
             );
