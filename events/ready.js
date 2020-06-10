@@ -1,4 +1,6 @@
 module.exports = (client) => {
-    console.log(`Logged in as ${client.user.tag}!`);
-    return client.user.setActivity("R!help", { type: "WATCHING" });
+    return client.user
+        .setActivity("R!help", { type: "WATCHING" })
+        .then(() => console.log(`Logged in as ${client.user.tag}!`))
+        .catch(console.error);
 };
