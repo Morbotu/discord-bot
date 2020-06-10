@@ -1,13 +1,14 @@
 const readimage = require("readimage");
 const fs = require("fs");
+const filedata = fs.readFileSync("./animations/animation.gif");
 
-function imageToMessage() {
+function imageToMessage(readimage, fs, filedata) {
+    var faceMessage = "";
     readimage(filedata, function (err, image) {
         if (err) {
             console.log("failed to read the image");
             console.log(err);
         }
-        var faceMessage = "";
         for (let i = 0; i < image.height; i++) {
             for (let j = 0; j < image.width * 4; j += 4) {
                 let r = image.frames[0].data[j + i * image.width * 4];
@@ -20,10 +21,11 @@ function imageToMessage() {
             }
             faceMessage = faceMessage.concat("\n");
         }
-        console.log(faceMessage);
     });
+    return faceMessage;
 }
 
 module.exports = async (message) => {
     var channel = message.channel;
+    channel.send(imageToMessage(readimage, fs, filedata));
 };
