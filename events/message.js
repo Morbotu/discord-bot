@@ -3,6 +3,7 @@ const duel = require("../commands/duel");
 const getActiveRooms = require("../commands/getActiveRooms");
 const help = require("../commands/help");
 const button = require("../commands/button");
+const rombotFace = require("../commands/rombotFace");
 
 module.exports = (client, MessageEmbed, globalPrefix, keyv, message) => {
     if (message.author.bot) return;
@@ -32,4 +33,6 @@ module.exports = (client, MessageEmbed, globalPrefix, keyv, message) => {
 
     if (message.content.toLowerCase().startsWith(globalPrefix + "button"))
         return button(message, keyv, MessageEmbed);
+
+    if (message.content.toLowerCase() === globalPrefix + "rombot") return rombotFace(message);
 };
