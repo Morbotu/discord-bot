@@ -1,8 +1,7 @@
 /*
  * 27-04-2020
  * This is a simple bot.
- * In the index is some library magic going on.
- * The rest is a bit of if statements giving some magic back.
+ * Go to README.md for further explanation.
  */
 
 // This program can use rookout to debug in prod.

@@ -181,18 +181,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     return message.reply("It's not your turn.");
             }
         }
-        if (message.content.toLowerCase() === "hack") {
-            if (!(message.author.tag === "Morbotu#3961"))
-                return message.reply("You are not skilled enough.");
-            switch (await attack(100, 100, keyv, message, turnId, turn, room, health)) {
-                case 0:
-                    return message.channel.send(
-                        new MessageEmbed().setTitle("Attack failed.").setColor(0xff0000)
-                    );
-                case 1:
-                    return message.reply("It's not your turn.");
-            }
-        }
 
         let newHealth = await keyv.get(room + ":health");
         if (newHealth[0] <= 0) {
