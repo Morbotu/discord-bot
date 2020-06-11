@@ -11,7 +11,7 @@ Hello this is my discord bot. In quarantine I was really bored so I made this. I
 
 ---
 
-## Tools used {#tools}
+## Tools used (#tools)
 
 -   [npm.js](https://www.npmjs.com)
 -   [node.js](https://nodejs.org/en/)
