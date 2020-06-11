@@ -34,12 +34,6 @@ module.exports = async (message, keyv, MessageEmbed) => {
         for (const color of buttonColors) check.push(`${color} tier`);
         const roles = guild.roles.cache.filter((role) => !check.includes(role.name));
 
-        /* --------------------- FIXME: Permission doesn't work. -------------------- */
-        // for (const [id, name] of roles)
-        //     if (!(name.name === "@everyone") && !(name.name === "Rombot"))
-        //         guild.roles.cache.find((role) => role.id === id).setColor("STANDARD");
-        /* -------------------------------------------------------------------------- */
-
         for (const color of buttonColors) {
             if (!guild.roles.cache.find((role) => role.name === `${color} tier`))
                 await guild.roles.create({
