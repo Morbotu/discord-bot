@@ -1,6 +1,6 @@
 const readimage = require("readimage");
 const fs = require("fs");
-const filedata = fs.readFileSync("./animations/animation.gif");
+const filedata = fs.readFileSync("./animations/face.jpg");
 
 function imageToMessage(readimage, fs, filedata) {
     var faceMessage = "";
