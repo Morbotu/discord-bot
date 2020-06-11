@@ -1,6 +1,5 @@
 const sayHello = require("../commands/sayHello");
 const duel = require("../commands/duel");
-const getActiveRooms = require("../commands/getActiveRooms");
 const help = require("../commands/help");
 const button = require("../commands/button");
 const rombotFace = require("../commands/rombotFace");
@@ -24,9 +23,6 @@ module.exports = (client, MessageEmbed, globalPrefix, keyv, message) => {
         ].includes(message.content.toLowerCase().split(" ")[0])
     )
         return duel(keyv, MessageEmbed, message, globalPrefix);
-
-    // TODO: This function isn't necessary for the final version.
-    if (message.content.toLowerCase() === "get rooms") return getActiveRooms(keyv, message);
 
     if (message.content.toLowerCase().startsWith(globalPrefix + "help"))
         return help(MessageEmbed, message);
