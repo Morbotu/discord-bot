@@ -6,12 +6,12 @@ Hello this is my discord bot. In quarantine I was really bored so I made this. I
 
 ## Legendre
 
--   [Tools used](#tools)
+-   [Tools used](#tools-used)
 -   [Commands](#commands)
 
 ---
 
-## Tools used (#tools)
+## Tools used
 
 -   [npm.js](https://www.npmjs.com)
 -   [node.js](https://nodejs.org/en/)
@@ -21,7 +21,7 @@ Hello this is my discord bot. In quarantine I was really bored so I made this. I
 
 ---
 
-## Commands {#commands}
+## Commands
 
 The program reads message from discord as commands. Here is a list of all the commands with a explanation of how they work.
 
