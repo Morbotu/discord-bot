@@ -8,6 +8,7 @@ Hello this is my discord bot. In quarantine I was really bored so I made this. I
 
 -   [Tools used](#tools-used)
 -   [Commands](#commands)
+-   [TODO](#todo)
 
 ---
 
@@ -39,3 +40,11 @@ The program reads message from discord as commands. Here is a list of all the co
     : sayHello.js is very simple. All it does is sending reply to everybody who says hello, hallo or goedendag (the last two are dutch greeting). I use it to test if the bot is online.
 
 ---
+
+## TODO
+
+This project isn't done yet, so i have made a todo list of what wat I still want to add.
+
+-   [ ] Change [rombotFace.js](commands/rombotFace.js), so everyone can make a gif and convert it into emojis.
+-   [ ] Make a part in help.js for instructions about rombotFace.js.
+-   [ ] Make a few math functions just like most virtual assistance have.
