@@ -1,6 +1,6 @@
 # Discord-bot
 
-Hello this is my discord bot. In quarantine I was really bored so I made this. It is a discord bot with a few functions I liked to made. The bot isn't open for public use I only use it for a server with my friends. However, I still wanted to share to code with other people. Maybe someone can learn something from it.
+Hello this is my discord bot. In quarantine I was really bored so I made this. It is a discord bot with a few functions I liked to made. The bot isn't open for public use. I only use it for a server with my friends. However, I still wanted to share to code with other people. Maybe someone can learn something from it.
 
 ---
 
