@@ -1,0 +1,33 @@
+{
+  "name": "my-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "keyv": "^4.0.0",
+    "readimage": "^1.1.1",
+    "rookout": "^0.1.89",
+    "update-notifier": "^4.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rombout124/discord-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rombout124/discord-bot/issues"
+  },
+  "homepage": "https://github.com/Rombout124/discord-bot#readme"
+}
