@@ -61,7 +61,9 @@ module.exports = (MessageEmbed, message) => {
     return channel.send(
         new MessageEmbed()
             .setTitle("Help page")
-            .setDescription("**Commands:**\n`duel`,`button`")
+            .setDescription(
+                "**Commands:**\n`duel`,`button`\n\nSee the project on github [Rombout124/discord-bot](https://github.com/Rombout124/discord-bot)."
+            )
             .setColor(0xff0000)
     );
 };
