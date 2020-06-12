@@ -34,10 +34,9 @@ The program reads message from discord as commands. Here is a list of all the co
 -   [help.js](commands/help.js)
     : help.js is just a command where you can get information about the different commands available to the user.
 -   [rombotFace.js](commands/rombotFace.js)
-    : This command is still a work in progress. I was bored again so I tried to convert a gif into a message of emojis. I also made it animate by editing the message every second.
-
+    : This command is still a work in progress. I was bored again so I tried to convert a gif into a message of emojis. I also made it animate by editing the message every second. To activate it type `R!rombot`.
 -   [sayHello.js](commands/sayHello.js)
-    : sayHello.js is very simple. All it does is sending reply to everybody who says hello, hallo or goedendag (the last two are dutch greeting). I use it to test if the bot is online.
+    : sayHello.js is very simple. All it does is sending reply to everybody who says `hello`, `hallo` or `goedendag` (the last two are dutch greeting). I use it to test if the bot is online.
 
 ---
 
