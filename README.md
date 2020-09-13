@@ -42,8 +42,6 @@ The program reads message from discord as commands. Here is a list of all the co
 
 ## TODO
 
-This project isn't done yet, so i have made a todo list of what wat I still want to add.
-
 -   [ ] Change [rombotFace.js](commands/rombotFace.js), so everyone can make a gif and convert it into emojis.
 -   [ ] Make a part in help.js for instructions about [rombotFace.js](commands/rombotFace.js).
 -   [ ] Make a few math functions just like most virtual assistance have.
