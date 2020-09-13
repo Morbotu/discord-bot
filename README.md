@@ -4,7 +4,7 @@ Hello this is my discord bot. In quarantine I was really bored so I made this. I
 
 ---
 
-## Legendre
+## Table of content
 
 -   [Tools used](#tools-used)
 -   [Commands](#commands)
