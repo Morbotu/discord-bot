@@ -14,7 +14,7 @@ Hello this is my discord bot. In quarantine I was really bored so I made this. I
 
 ## Tools used
 
--   npm [<img width="16px" alt="npm" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJcAAAA7CAMAAABBn+jeAAAAY1BMVEX////LODfJJyXpu7rJLCvhmprKNDPswsLQVFPIHRzIIyHw0dHHExH89/fz2dn78vLSXl7jpaX25OTNQ0LagIDFAADekZDuyMjOSknotbXin5/IGRfbhobYe3rlq6v57OzVbGzok7qmAAABRklEQVRoge3ZbVPCMAwH8HWEjuJQdPLgUPD7f0pPmuCZGtPeubO3y//d0jT7wQt2dI2rM81/A4SYqyzmKkv1Lmi1TNHJA9wF+4UW3ANLrfEFYTCqM3n2wFztodESYuf6Tmvc9LEz3KszeQ4td3VVuDpzmctcP7keMBvVxTtlVzKTCgWuVR8+sxtVF5y+d8quNXYu8PqyC7HwlO/a+rjwqLqG2AnUKbsczry5cGYod4G5zGUuc5nLXOaak8vBNaE21+vzNW80ohYXj7nMZa6ZupLzL/qfdi52NT27W+K6/dKR64KF5PzLH1cstDBQwUuuLd/qpZnJAhXo+uiZy3meZMFJrkHdqs1MC+Xn0eJz+09jLnNN6oLsqC6fP0tNs8yO9L6jG5D1PuYP08I/+y854ReWvPWh+lmfMUXIJeXrSWouc5lrVq4PWiQ8IeB9anoAAAAASUVORK5CYII=" />](https://www.npmjs.com/)
+-   npm [<img width="16px" alt="npm" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/440px-Npm-logo.svg.png" />](https://www.npmjs.com/)
 -   Nodejs [<img width="16px" alt="Nodejs" src="https://nodejs.org/static/images/favicons/favicon.ico" />](https://nodejs.org/)
 -   Visual Studio Code [<img width="16px" alt="Visual Studio Code" src="https://code.visualstudio.com/favicon.ico" />](https://code.visualstudio.com/)
 -   Discordjs [<img width="16px" alt="discordjs" src="https://discord.js.org/favicon.ico" />](https://discord.js.org/#/)
