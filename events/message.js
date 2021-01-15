@@ -4,7 +4,7 @@ const help = require("../commands/help");
 const button = require("../commands/button");
 const rombotFace = require("../commands/rombotFace");
 
-module.exports = (client, MessageEmbed, globalPrefix, keyv, message) => {
+module.exports = (message, client, MessageEmbed, globalPrefix, keyv) => {
     if (message.author.bot) return;
 
     if (["hello", "hallo", "goedendag"].includes(message.content.toLowerCase()))
