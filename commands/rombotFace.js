@@ -30,12 +30,12 @@ function imageToMessage(readimage, fs, filedata, frame) {
 
 module.exports = async (message) => {
     var channel = message.channel;
-    var faceMessageInstance = await channel.send(imageToMessage(readimage, fs, filedata, 0));
+    var faceMessageInstance = await channel.send(imageToMessage(readimage, fs, filedata, 0)).catch(console.error);
     var frame = 1;
     var interval = setInterval(async () => {
         let text = imageToMessage(readimage, fs, filedata, frame);
         if (text === "done") return clearInterval(interval);
-        await faceMessageInstance.edit(text);
+        await faceMessageInstance.edit(text).catch(console.error);
         frame++;
     }, 1000);
 };

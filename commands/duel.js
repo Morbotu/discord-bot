@@ -23,17 +23,17 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
     const channel = message.channel;
     if (message.content.toLowerCase().startsWith(globalPrefix + "duel")) {
         if (message.mentions.members.keyArray().length > 1) {
-            return message.reply("You can only mention one player.");
+            return message.reply("You can only mention one player.").catch(console.error);
         }
         const opponent = message.mentions.members.first();
-        if (!opponent) return message.reply("Mention the player you want to challenge.");
+        if (!opponent) return message.reply("Mention the player you want to challenge.").catch(console.error);
 
         if (await keyv.get(message.author.id + ":occupied"))
-            return message.reply("You are already in a fight or you need to answer a request.");
+            return message.reply("You are already in a fight or you need to answer a request.").catch(console.error);
         if (await keyv.get(opponent.user.id + ":occupied"))
             return message.reply(
                 "This player is already in a fight or still needs to answer a request."
-            );
+            ).catch(console.error);
 
         if (await keyv.get(message.author.id + ":coolDownTimer")) {
             let d = new Date();
@@ -44,7 +44,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 );
             return message.reply(
                 `You need to wait ${timeLeft} seconds before you can send another request.`
-            );
+            ).catch(console.error);
         }
 
         await keyv.set(opponent.user.id + ":occupied", true);
@@ -71,12 +71,12 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
             }
             await keyv.delete(message.author.id + ":coolDownTime");
             await keyv.delete(message.author.id + ":coolDownTimer");
-            return channel.send(`${message.author.toString()}, You can now duel someone.`);
+            return channel.send(`${message.author.toString()}, You can now duel someone.`).catch(console.error);
         }, 30000);
 
         return channel.send(
             `${opponent.toString()} has 30 seconds to accept with \`yes\` or refuse with \`no\``
-        );
+        ).catch(console.error);
     }
     if (
         message.content.toLowerCase() === "yes" &&
@@ -116,7 +116,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                         "`mega_punch` 40 damage 40% success rate"
                 )
                 .setColor(0xff0000)
-        );
+        ).catch(console.error);
     }
 
     if (
@@ -131,7 +131,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
         await keyv.delete(challenger + ":occupied");
         await keyv.delete(challenger + ":challenging");
 
-        return channel.send(`${message.author.toString()} refused`);
+        return channel.send(`${message.author.toString()} refused`).catch(console.error);
     }
 
     if (await keyv.get(message.author.id + ":dueling")) {
@@ -146,9 +146,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 case 0:
                     return message.channel.send(
                         new MessageEmbed().setTitle("Attack failed.").setColor(0xff0000)
-                    );
+                    ).catch(console.error);
                 case 1:
-                    return message.reply("It's not your turn.");
+                    return message.reply("It's not your turn.").catch(console.error);
             }
         }
         if (message.content.toLowerCase() === "punch") {
@@ -156,9 +156,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 case 0:
                     return message.channel.send(
                         new MessageEmbed().setTitle("Attack failed.").setColor(0xff0000)
-                    );
+                    ).catch(console.error);
                 case 1:
-                    return message.reply("It's not your turn.");
+                    return message.reply("It's not your turn.").catch(console.error);
             }
         }
         if (message.content.toLowerCase() === "stab") {
@@ -166,9 +166,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 case 0:
                     return message.channel.send(
                         new MessageEmbed().setTitle("Attack failed.").setColor(0xff0000)
-                    );
+                    ).catch(console.error);
                 case 1:
-                    return message.reply("It's not your turn.");
+                    return message.reply("It's not your turn.").catch(console.error);
             }
         }
         if (message.content.toLowerCase() === "mega_punch") {
@@ -176,9 +176,9 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                 case 0:
                     return message.channel.send(
                         new MessageEmbed().setTitle("Attack failed.").setColor(0xff0000)
-                    );
+                    ).catch(console.error);
                 case 1:
-                    return message.reply("It's not your turn.");
+                    return message.reply("It's not your turn.").catch(console.error);
             }
         }
 
@@ -201,7 +201,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     .setTitle("Battle is over.")
                     .setDescription(`<@${players[1]}> won`)
                     .setColor(0xff0000)
-            );
+            ).catch(console.error);
         }
         if (newHealth[1] <= 0) {
             let rooms = await keyv.get("rooms");
@@ -221,7 +221,7 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     .setTitle("Battle is over.")
                     .setDescription(`<@${players[0]}> won`)
                     .setColor(0xff0000)
-            );
+            ).catch(console.error);
         }
 
         return channel.send(
@@ -231,6 +231,6 @@ module.exports = async (keyv, MessageEmbed, message, globalPrefix) => {
                     `<@${players[0]}> health: ${newHealth[0]}\n<@${players[1]}> health: ${newHealth[1]}`
                 )
                 .setColor(0xff0000)
-        );
+        ).catch(console.error);
     }
 };

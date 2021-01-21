@@ -7,7 +7,7 @@ function checkIfOnline(guild) {
 
 module.exports = async (message, keyv, MessageEmbed) => {
     if (message.content.split(" ").length > 2)
-        return message.reply("This command only has one argument.");
+        return message.reply("This command only has one argument.").catch(console.error);
 
     const arg = message.content.toLowerCase().split(" ")[1];
     // Change button Colors for more colors.
@@ -43,7 +43,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
                         position: 1,
                     },
                     reason: `button ${color} tier`,
-                });
+                }).catch(console.error);
         }
 
         await keyv.set(guild.id + ":buttonTimer", 0);
@@ -67,7 +67,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
                                 .setTitle("Button died")
                                 .setDescription("Type `R!button start` to start the button again.")
                                 .setColor(0xff0000)
-                        );
+                        ).catch(console.error);
                     }
                 }
             }, 1000);
@@ -76,7 +76,7 @@ module.exports = async (message, keyv, MessageEmbed) => {
                     .setTitle("Start button")
                     .setDescription("Button has started.")
                     .setColor(0xff0000)
-            );
+            ).catch(console.error);
         }
         await keyv.set(guild.id + ":button", buttonColors.length);
         return channel.send(
@@ -84,11 +84,11 @@ module.exports = async (message, keyv, MessageEmbed) => {
                 .setTitle("Restart button")
                 .setDescription("Button has restarted.")
                 .setColor(0xff0000)
-        );
+        ).catch(console.error);
     }
 
     if (arg === "reset") {
-        message.reply("Resetting all tiers.");
+        message.reply("Resetting all tiers.").catch(console.error);
         for (const guildMember of guild.members.cache)
             if (!guildMember[1].user.bot)
                 for (const color of buttonColors)
@@ -96,30 +96,30 @@ module.exports = async (message, keyv, MessageEmbed) => {
                         await guildMember[1].roles.remove(
                             guild.roles.cache.find((role) => role.name === `${color} tier`)
                         );
-        return channel.send("All tiers are reset.");
+        return channel.send("All tiers are reset.").catch(console.error);
     }
 
     if (arg === "press") {
         if (!(await keyv.get(guild.id + ":button")))
-            return message.reply("The button  is dead or not started yet.");
+            return message.reply("The button  is dead or not started yet.").catch(console.error);
         for (const color of buttonColors)
             message.member.roles.remove(
                 guild.roles.cache.find((role) => role.name === `${color} tier`)
-            );
+            ).catch(console.error);
         let roleColor = (await keyv.get(guild.id + ":button")) - 1;
         message.member.roles.add(
             guild.roles.cache.find((role) => role.name === `${buttonColors[roleColor]} tier`)
-        );
+        ).catch(console.error);
         await keyv.set(guild.id + ":button", buttonColors.length);
         await keyv.set(guild.id + ":buttonTimer", 0);
-        return message.reply(`You got ${buttonColors[roleColor]} tier.`);
+        return message.reply(`You got ${buttonColors[roleColor]} tier.`).catch(console.error);
     }
 
     if (arg === "look") {
         let currentColorIndex = (await keyv.get(guild.id + ":button")) - 1;
         let currentColor = buttonColors[currentColorIndex];
 
-        if (!currentColor) return message.reply("The button  is dead or not installed yet.");
+        if (!currentColor) return message.reply("The button  is dead or not installed yet.").catch(console.error);
         let colorEmojis = "";
         for (const color of buttonColors)
             if (!(color === "black")) colorEmojis = colorEmojis + `:${color}_square:`;
@@ -136,6 +136,6 @@ module.exports = async (message, keyv, MessageEmbed) => {
                     `The button is now ${currentColor}\n${colorEmojis}\n${countDownEmoji}`
                 )
                 .setColor(0xff0000)
-        );
+        ).catch(console.error);
     }
 };

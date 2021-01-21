@@ -7,7 +7,7 @@ module.exports = (oldState, newState) => {
                 connection.play("./sounds/helloSound.mp3").on("finish", () => {
                     connection.disconnect();
                 });
-            });
+            }).catch(console.error);
         }, 1500);
     };
 
@@ -16,6 +16,6 @@ module.exports = (oldState, newState) => {
             connection.play("./sounds/goodbyeSound.mp3").on("finish", () => {
                 connection.disconnect();
             });
-        });
+        }).catch(console.error);
     };
 };
