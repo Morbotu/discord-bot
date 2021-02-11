@@ -89,7 +89,7 @@ module.exports = (MessageEmbed, message) => {
         new MessageEmbed()
             .setTitle("Help page")
             .setDescription(
-                "**Commands:**\n`duel`, `button`, `say`, `play`, `stop`\n\nSee the project on github [Rombout124/discord-bot](https://github.com/Rombout124/discord-bot)."
+                "**Commands:**\n`duel`, `button`, `say`, `play`, `stop`\n\nSee the project on github [Morbotu/discord-bot](https://github.com/Morbotu/discord-bot)."
             )
             .setColor(0xff0000)
     ).catch(console.error);
