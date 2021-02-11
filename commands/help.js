@@ -79,7 +79,7 @@ module.exports = (MessageEmbed, message) => {
                 new MessageEmbed()
                     .setTitle("Help page: stop")
                     .setDescription(
-                        "**Usage:**\n`R!stop`\n\n*Description:**\nDisconnects rombot from all voice channels"
+                        "**Usage:**\n`R!stop`\n\n**Description:**\nDisconnects rombot from all voice channels"
                     )
                     .setColor(0xff0000)
             ).catch(console.error);
