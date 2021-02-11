@@ -3,7 +3,9 @@ const duel = require("../commands/duel");
 const help = require("../commands/help");
 const button = require("../commands/button");
 const rombotFace = require("../commands/rombotFace");
-const saySomething = require("../commands/saySomething")
+const saySomething = require("../commands/saySomething");
+const playMedia = require("../commands/playMedia");
+const stopAudio = require("../commands/stopAudio");
 
 module.exports = (message, client, MessageEmbed, globalPrefix, keyv) => {
     if (message.author.bot) return;
@@ -32,7 +34,13 @@ module.exports = (message, client, MessageEmbed, globalPrefix, keyv) => {
         return button(message, keyv, MessageEmbed);
     
     if (message.content.toLowerCase().startsWith(globalPrefix + "say"))
-        return saySomething(message)
+        return saySomething(message);
+    
+    if (message.content.toLowerCase().startsWith(globalPrefix + "play"))
+        return playMedia(message);
+
+    if (message.content.toLowerCase().startsWith(globalPrefix + "stop"))
+        return stopAudio(message, client);
 
     if (message.content.toLowerCase() === globalPrefix + "rombot") return rombotFace(message);
 };
