@@ -52,7 +52,34 @@ module.exports = (MessageEmbed, message) => {
                 new MessageEmbed()
                     .setTitle("Help page: button press")
                     .setDescription(
-                        "**Usage:**\n`R!button reset`\n\n**Description**\nReset all tiers from all players."
+                        "**Usage:**\n`R!button reset`\n\n**Description:**\nReset all tiers from all players."
+                    )
+                    .setColor(0xff0000)
+            ).catch(console.error);
+        if (helpSubject === "say") 
+            return channel.send(
+                new MessageEmbed()
+                    .setTitle("Help page: say")
+                    .setDescription(
+                        "**Usage:**\n`R!say 'thing to say'`\n\n**Description:**\nLets rombot say something in the voice channel you are in."
+                    )
+                    .setColor(0xff0000)
+            ).catch(console.error);
+        if (helpSubject === "play")
+            return channel.send(
+                new MessageEmbed()
+                    .setTitle("Help page: play")
+                    .setDescription(
+                        "**Usage:**\n`R!play 'A youtube link'`\n\n**Description:**\nLets rombot play the audio of a youtube video in the voice channel you are in."
+                    )
+                    .setColor(0xff0000)
+            ).catch(console.error);
+        if (helpSubject === "stop")
+            return channel.send(
+                new MessageEmbed()
+                    .setTitle("Help page: stop")
+                    .setDescription(
+                        "**Usage:**\n`R!stop`\n\n*Description:**\nDisconnects rombot from all voice channels"
                     )
                     .setColor(0xff0000)
             ).catch(console.error);
@@ -62,7 +89,7 @@ module.exports = (MessageEmbed, message) => {
         new MessageEmbed()
             .setTitle("Help page")
             .setDescription(
-                "**Commands:**\n`duel`,`button`\n\nSee the project on github [Rombout124/discord-bot](https://github.com/Rombout124/discord-bot)."
+                "**Commands:**\n`duel`, `button`, `say`, `play`, `stop`\n\nSee the project on github [Rombout124/discord-bot](https://github.com/Rombout124/discord-bot)."
             )
             .setColor(0xff0000)
     ).catch(console.error);
