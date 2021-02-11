@@ -10,9 +10,13 @@ function sayTextRecursively(text, connection) {
 }
 
 module.exports = (message) => {
-    if (message.member.voice.channel) {
-        message.member.voice.channel.join().then((connection) => {
-            sayTextRecursively(message.content.toLowerCase().replace("r!say ", "").split(/[\n,.]/).filter((item) => item !== ""), connection);
-        }).catch(console.error);
-    };
+    if (message.content.split(" ").length < 2)
+        return message.channel.send("You need at least 1 argument.").catch(console.error);
+
+    if (!message.member.voice.channel) {
+        return message.channel.send("You need to be in a voice channel to use this command.").catch(console.error);    
+    }
+    message.member.voice.channel.join().then((connection) => {
+        sayTextRecursively(message.content.toLowerCase().replace("r!say ", "").split(/[\n,.]/).filter((item) => item !== ""), connection);
+    }).catch(console.error);
 }
