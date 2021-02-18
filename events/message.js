@@ -14,12 +14,6 @@ const fs = require("fs");
 module.exports = (message, client, MessageEmbed, globalPrefix, keyv) => {
     if (message.author.bot) return;
 
-    const blacklist = fs.readFileSync("./blacklist", "utf-8").split("\n");
-    if (blacklist.includes(message.member.user.tag)) return;
-
-    if (["hello", "hallo", "goedendag"].includes(message.content.toLowerCase()))
-        return sayHello(message);
-
     if (
         [
             globalPrefix + "duel",
@@ -40,6 +34,12 @@ module.exports = (message, client, MessageEmbed, globalPrefix, keyv) => {
     if (message.content.toLowerCase().startsWith(globalPrefix + "button"))
         return button(message, keyv, MessageEmbed);
     
+    const blacklist = fs.readFileSync("./blacklist", "utf-8").split("\n");
+    if (blacklist.includes(message.member.user.tag)) return;
+    
+    if (["hello", "hallo", "goedendag"].includes(message.content.toLowerCase()))
+        return sayHello(message);
+
     if (message.content.toLowerCase().startsWith(globalPrefix + "say"))
         return saySomething(message);
     
